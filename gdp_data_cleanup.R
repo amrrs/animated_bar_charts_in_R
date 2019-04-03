@@ -17,5 +17,5 @@ gdp_tidy <- gdp %>%
   janitor::clean_names() %>% 
   mutate(year = as.numeric(stringr::str_sub(year,1,4)))
 
-write_csv(gdp_long,"./data/gdp_tidy.csv")
+write_csv(gdp_tidy,"./data/gdp_tidy.csv")
 
