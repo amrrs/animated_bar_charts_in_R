@@ -11,9 +11,9 @@ gdp <- gdp %>% select(3:15)
 
 gdp <- gdp[1:217,]
 
-gdp_long <- gdp %>% 
+gdp_tidy <- gdp %>% 
   mutate_at(vars(contains("YR")),as.numeric) %>% 
-  gather(year,gpd,3:13) %>% 
+  gather(year,value,3:13) %>% 
   janitor::clean_names() %>% 
   mutate(year = as.numeric(stringr::str_sub(year,1,4)))
 
