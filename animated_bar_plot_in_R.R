@@ -40,13 +40,14 @@ p <- ggplot(gdp_formatted,aes(-rank,Value_rel, fill = country_name)) +
 
  
 
-ggplot(gdp_formatted,aes(-rank,Value_rel, fill = country_name)) +
+ggplot(gdp_formatted,aes(-rank,log1p(Value_rel), fill = country_name)) +
      geom_col(width = 0.8, position="identity") +
+ # scale_y_log10() +
      coord_flip() + 
     geom_text(aes(-rank,y=0,label = country_name,hjust=0),color = "white") +  #country label
    geom_text(aes(-rank,y=Value_rel,label = Value_lbl, hjust=0)) + # value label
   theme_minimal() +
-   
+
   theme_void() +
   theme( # remove the horizontal grid lines
     panel.grid.major.y = element_blank() ,
@@ -76,6 +77,7 @@ geom_text(aes(y = 0, label = paste(country_name, " ")), color = "white", hjust =
 geom_text(aes(y=value,label = Value_lbl, hjust=0)) +
 coord_flip(clip = "off", expand = FALSE) +
 scale_y_continuous(labels = scales::comma) +
+
 scale_x_reverse() +
 guides(color = FALSE, fill = FALSE) +
 labs(title='{closest_state}', x = "", y = "GDP in billion USD",
