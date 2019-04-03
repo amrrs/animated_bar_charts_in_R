@@ -65,14 +65,14 @@ ggplot(gdp_formatted,aes(-rank,Value_rel, fill = country_name)) +
      view_follow(fixed_x = TRUE)
 
 
-#this works for now
+#this works weell for now
 
 ggplot(gdp_formatted, aes(rank, group = country_name,
 fill = as.factor(country_name), color = as.factor(country_name))) +
 geom_tile(aes(y = value/2,
 height = value,
 width = 0.9), alpha = 0.8, color = NA) +
-geom_text(aes(y = 0, label = paste(country_name, " ")), vjust = 0.2, hjust = 1) +
+geom_text(aes(y = 0, label = paste(country_name, " ")), color = "white", hjust = -0.24) +
 geom_text(aes(y=value,label = Value_lbl, hjust=0)) +
 coord_flip(clip = "off", expand = FALSE) +
 scale_y_continuous(labels = scales::comma) +
@@ -80,17 +80,14 @@ scale_x_reverse() +
 guides(color = FALSE, fill = FALSE) +
 labs(title='{closest_state}', x = "", y = "GDP in billion USD",
 caption = "Sources: World Bank") +
-theme(plot.title = element_text(hjust = 0, size = 22),
-axis.ticks.y = element_blank(),  # These relate to the axes post-flip
-axis.text.y  = element_blank(),  # These relate to the axes post-flip
-plot.margin = margin(1,1,1,4, "cm")) +
 theme_void() +
-theme( # remove the vertical grid lines
+theme(
+axis.ticks=element_blank(),# remove the vertical grid lines
 panel.grid.major.y = element_blank() ,
 # explicitly set the horizontal lines (or they will disappear too)
 panel.grid.major.x = element_line( size=.1, color="grey" )
 ) +
 transition_states(year, transition_length = 4, state_length = 1) +
-#ease_aes('cubic-in-out') +
-view_follow(fixed_x = TRUE)
+view_follow(fixed_x = TRUE) +
+ease_aes('cubic-in-out') 
 
