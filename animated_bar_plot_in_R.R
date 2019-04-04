@@ -1,6 +1,5 @@
 library(tidyverse)
 library(gganimate)
-theme_set(theme_minimal())
 
 gdp_tidy <- read_csv("./data/gdp_tidy.csv")
 
