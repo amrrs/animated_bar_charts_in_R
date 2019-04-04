@@ -4,6 +4,12 @@ The goal of this project is explain how to build Animated Bar Charts in R (which
 
 **Disclaimer:** The code used here is heaving borrwoed (*You can say, inspired and copied*) from the answers of this Stack Overflow Question [Animated sorted bar chart with bars overtaking each other](https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other)
 
+### Final Output (GIF):
+
+![GIF](gganim.gif)
+
+### Reproducibility 
+
 **Packages used**:
 
 + `gganimate`
@@ -50,8 +56,7 @@ loaded via a namespace (and not attached):
 [43] munsell_0.5.0     broom_0.5.0       crayon_1.3.4  
 ```
 
-**Data Source:** The origin input data (`csv`) has been downloaded from [databank.worldbank.org](https://databank.worldbank.org/data/reports.aspx?source=2&series=NY.GDP.MKTP.CD&country=#)
+### Data Source:
 
-Final Output (GIF):
+The origin input data (`csv`) has been downloaded from [databank.worldbank.org](https://databank.worldbank.org/data/reports.aspx?source=2&series=NY.GDP.MKTP.CD&country=#)
 
-![GIF](gganim.gif)
