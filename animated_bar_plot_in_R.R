@@ -15,81 +15,52 @@ gdp_formatted <- gdp_tidy %>%
   filter(rank <=10) %>%
   ungroup()
 
-p <- ggplot(gdp_formatted,aes(-rank,Value_rel, fill = country_name)) +
-  geom_col(width = 0.8, position="identity") +
-  coord_flip(clip = "off") + 
-  geom_text(aes(-rank,y=0,label = country_name,hjust=0), color = "white") + #country label
-  geom_text(aes(-rank,y=Value_rel,label = Value_lbl, hjust=0)) + # value label
-   
-  
-  theme(legend.position = 1 c "none",axis.title = element_blank()) +
-  
-  labs(title='GDP per Year : {closest_state}',
-       subtitle = 'Top Countries', x = "", y = "GDP in billion USD",
-       caption = "Data Source: World Bank ") +
-  theme_void() +
-  theme( # remove the vertical grid lines
-    panel.grid.major.y = element_blank() ,
-    # explicitly set the horizontal lines (or they will disappear too)
-    panel.grid.major.x = element_line( size=.1, color="grey" ) 
-  ) + 
-  
+# Animation
+
+
+anim <- ggplot(gdp_formatted, aes(rank, group = country_name, 
+                fill = as.factor(country_name), color = as.factor(country_name))) +
+  geom_tile(aes(y = value/2,
+                height = value,
+                width = 0.9), alpha = 0.8, color = NA) +
+  geom_text(aes(y = 0, label = paste(country_name, " ")), vjust = 0.2, hjust = 1) +
+  geom_text(aes(y=value,label = Value_lbl, hjust=0)) +
+  coord_flip(clip = "off", expand = FALSE) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_reverse() +
+  guides(color = FALSE, fill = FALSE) +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+         axis.title.y=element_blank(),
+        legend.position="none",
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.grid.major.x = element_line( size=.1, color="grey" ),
+        panel.grid.minor.x = element_line( size=.1, color="grey" ),
+        plot.title=element_text(size=25, hjust=0.5, face="bold", colour="grey", vjust=-1),
+        plot.subtitle=element_text(size=18, hjust=0.5, face="italic", color="grey"),
+        plot.caption =element_text(size=8, hjust=0.5, face="italic", color="grey"),
+        plot.background=element_blank(),
+       plot.margin = margin(2,2, 2, 4, "cm")) +
   transition_states(year, transition_length = 4, state_length = 1) +
-  #ease_aes('cubic-in-out') +
-  view_follow(fixed_x = TRUE)
+  view_follow(fixed_x = TRUE)  +
+  labs(title = 'GDP per Year : {closest_state}',  
+       subtitle  =  "Top 10 Countries",
+       caption  = "GDP in Billions USD | Data Source: World Bank Data") 
 
- 
+# For GIF
 
-ggplot(gdp_formatted,aes(-rank,log1p(Value_rel), fill = country_name)) +
-     geom_col(width = 0.8, position="identity") +
- # scale_y_log10() +
-     coord_flip() + 
-    geom_text(aes(-rank,y=0,label = country_name,hjust=0),color = "white") +  #country label
-   geom_text(aes(-rank,y=Value_rel,label = Value_lbl, hjust=0)) + # value label
-  theme_minimal() +
+animate(anim, 200, fps = 20,  width = 1200, height = 1000, 
+        renderer = gifski_renderer("gganim.gif")) 
 
-  theme_void() +
-  theme( # remove the horizontal grid lines
-    panel.grid.major.y = element_blank() ,
-    # explicitly set the horizontal lines (or they will disappear too)
-    panel.grid.major.x = element_line( size=.1, color="grey" ) ,
-    legend.position = "none",axis.title = element_blank()
-  ) + 
-  
-  
-    labs(title='GDP per Year {closest_state}',
-                  subtitle = 'Top Countries', x = "", y = "GDP in billion USD",
-                   caption = "Sources: World Bank ") +
-  
-     transition_states(year, transition_length = 4, state_length = 1) +
-     #ease_aes('cubic-in-out') +
-     view_follow(fixed_x = TRUE)
+# For MP4
 
+animate(anim, 200, fps = 20,  width = 1200, height = 1000, 
+        renderer = ffmpeg_renderer()) -> for_mp4
 
-#this works weell for now
-
-ggplot(gdp_formatted, aes(rank, group = country_name,
-fill = as.factor(country_name), color = as.factor(country_name))) +
-geom_tile(aes(y = value/2,
-height = value,
-width = 0.9), alpha = 0.8, color = NA) +
-geom_text(aes(y = 0, label = paste(country_name, " ")), color = "white", hjust = -0.24) +
-geom_text(aes(y=value,label = Value_lbl, hjust=0)) +
-coord_flip(clip = "off", expand = FALSE) +
-scale_y_continuous(labels = scales::comma) +
-
-scale_x_reverse() +
-guides(color = FALSE, fill = FALSE) +
-labs(title='{closest_state}', x = "", y = "GDP in billion USD",
-caption = "Sources: World Bank") +
-theme_void() +
-theme(
-axis.ticks=element_blank(),# remove the vertical grid lines
-panel.grid.major.y = element_blank() ,
-# explicitly set the horizontal lines (or they will disappear too)
-panel.grid.major.x = element_line( size=.1, color="grey" )
-) +
-transition_states(year, transition_length = 4, state_length = 1) +
-view_follow(fixed_x = TRUE) +
-ease_aes('cubic-in-out') 
-
+anim_save("animation.mp4", animation = for_mp4 )
