@@ -22,7 +22,7 @@ p <- ggplot(gdp_formatted,aes(-rank,Value_rel, fill = country_name)) +
   geom_text(aes(-rank,y=Value_rel,label = Value_lbl, hjust=0)) + # value label
    
   
-  theme(legend.position = "none",axis.title = element_blank()) +
+  theme(legend.position = 1 c "none",axis.title = element_blank()) +
   
   labs(title='GDP per Year : {closest_state}',
        subtitle = 'Top Countries', x = "", y = "GDP in billion USD",
