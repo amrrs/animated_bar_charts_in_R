@@ -8,6 +8,12 @@ The goal of this project is explain how to build Animated Bar Charts in R (which
 
 ![GIF](gganim.gif)
 
+### Codes
+
++ `gdp_data_cleanup.R` - Cleaning up the data downloaded from WorldBank Data Site
++ `animated_bar_plot_in_R.R` - Building Animated Bar Plots 
+
+
 ### Reproducibility 
 
 **Packages used**:
