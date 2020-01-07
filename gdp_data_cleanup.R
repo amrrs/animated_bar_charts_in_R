@@ -4,7 +4,6 @@ library(janitor)
 gdp <- read_csv("./data/GDP_Data.csv")
 
 #select required columns
-
 gdp <- gdp %>% select(3:15) 
 
 #filter only country rows

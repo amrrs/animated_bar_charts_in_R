@@ -3,7 +3,6 @@ library(gganimate)
 
 gdp_tidy <- read_csv("./data/gdp_tidy.csv")
 
-
 gdp_formatted <- gdp_tidy %>%
   group_by(year) %>%
   # The * 1 makes it possible to have non-integer ranks while sliding
