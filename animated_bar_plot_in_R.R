@@ -45,7 +45,7 @@ anim <- ggplot(gdp_formatted, aes(rank, group = country_name,
         plot.caption =element_text(size=8, hjust=0.5, face="italic", color="grey"),
         plot.background=element_blank(),
        plot.margin = margin(2,2, 2, 4, "cm")) +
-  transition_states(year, transition_length = 4, state_length = 1) +
+  transition_states(year, transition_length = 4, state_length = 1, wrap = FALSE) +
   view_follow(fixed_x = TRUE)  +
   labs(title = 'GDP per Year : {closest_state}',  
        subtitle  =  "Top 10 Countries",
@@ -54,7 +54,7 @@ anim <- ggplot(gdp_formatted, aes(rank, group = country_name,
 # For GIF
 
 animate(anim, 200, fps = 20,  width = 1200, height = 1000, 
-        renderer = gifski_renderer("gganim.gif")) 
+        renderer = gifski_renderer("gganim.gif"), end_pause = 15, start_pause =  15) 
 
 # For MP4
 
